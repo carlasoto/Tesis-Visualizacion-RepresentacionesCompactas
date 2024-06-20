@@ -1,1 +1,1 @@
-6horas_50hz.txt
+2Min_10hz.txt

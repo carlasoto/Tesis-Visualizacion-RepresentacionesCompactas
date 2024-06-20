@@ -7,7 +7,7 @@ Es necesario tener la versión adaptada de Python para que `pysdsl` funcione cor
 ## Estructura de Carpetas
 
 Este proyecto está adaptado para usar con la siguiente estructura de carpetas del repositorio:
-
+``````
 Implementacion/
 │
 ├── Programa/
@@ -18,7 +18,7 @@ Implementacion/
 └── Resultados/
 ├── Resultados.csv
 └── Graficos/
-
+``````
 
 
 ## Modificación de la Ruta de Python

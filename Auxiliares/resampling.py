@@ -1,26 +1,30 @@
 import pandas as pd
+from pathlib import Path
 
+current_dir = Path(__file__).resolve().parent
 
-# Cargar datos
-df = pd.read_csv('/home/carla/Documentos/Tesis/Py/Datasets/Nuevo/6horas.txt', delimiter=';', header=None)
+# Indicar el nombre del archivo a resamplear
+input_file = current_dir / 'Datasets' / '6horas.txt'
+# Indicar nombre seg√∫n la versi√≥n del resampleo (50 o 10 Hz)
+output_file = current_dir / 'Datasets' / '6horas_50hz.txt'
+
+df = pd.read_csv(input_file, delimiter=';', header=None)
 
 # Convertir la primera columna a datetime
 df[0] = pd.to_datetime(df[0], format='%Y%m%d%H%M%S%f')
 
-# Establecer la primera columna como el Ìndice
 df.set_index(0, inplace=True)
 
-# Remuestreo a 10 Hz y c·lculo del promedio
-df_resampled = df.resample('20L').mean() #50hz20L #10hz100L
+# Selecci√≥n de frecuencia para remuestreo
+# Para 50Hz: 20L
+# Para 10Hz: 100L
+df_resampled = df.resample('20L').mean()  
 
 df_resampled.iloc[:, 1:16] = df_resampled.iloc[:, 1:16].applymap(lambda x: format(x, ".3f")).astype(float)
 
-
-# Reindexar el DataFrame (esto convierte el Ìndice de datetime a una columna regular)
 df_resampled.reset_index(inplace=True)
 
-# ReconversiÛn a timestamp original
+# Reconversi√≥n a timestamp original
 df_resampled[0] = df_resampled[0].dt.strftime('%Y%m%d%H%M%S%f').str[:-3]
 
-# Guardar el DataFrame remuestreado en un nuevo archivo CSV
-df_resampled.to_csv('/home/carla/Documentos/Tesis/Py/Datasets/Nuevo/6horas_50hz.txt', sep=';', header=False, index=False)
+df_resampled.to_csv(output_file, sep=';', header=False, index=False)

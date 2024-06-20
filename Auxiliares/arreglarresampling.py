@@ -1,9 +1,14 @@
+from pathlib import Path
+
 def truncate(number, decimals=3):
     multiplier = 10 ** decimals
     truncated_number = int(number * multiplier) / multiplier
     return int(truncated_number) if truncated_number == 0.0 else truncated_number
 
-input_file_path = "/home/carla/Documentos/Tesis/Py/Datasets/Nuevo/6horas_50hz.txt"
+current_dir = Path(__file__).resolve().parent
+
+# Indicar el nombre del archivo para arreglar el resampleo
+input_file_path = current_dir / 'Datasets' / '6horas_50hz.txt'
 
 output_lines = []
 

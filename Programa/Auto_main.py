@@ -8,14 +8,17 @@ def write_to_csv(filename, data):
         writer.writerow(data)
 
 if __name__ == "__main__":
-    output_csv = '/home/casoto/tesis/Implementacion-PA/Resultados/Resultados.csv'
-    prefix_path = '/home/casoto/tesis/Implementacion-PA/Datasets/'
+    current_dir = Path(__file__).resolve().parent
+    output_csv = current_dir / 'Resultados' / 'Resultados.csv'
+    prefix_path = current_dir / 'Datasets'
+    listado_datasets = current_dir / 'ListadoDatasets.txt'
+    graficos_dir = current_dir / 'Resultados' / 'Graficos'
 
     def get_file_path(filename):
         with open(filename, 'r') as file:
             return [line.strip() for line in file.readlines()]
 
-    file_paths = get_file_path('/home/casoto/tesis/Implementacion-PA/Programa/ListadoDatasets.txt')
+    file_paths = get_file_path(listado_datasets)
     
     for file_path in file_paths:
         file_path = prefix_path + file_path
@@ -23,7 +26,7 @@ if __name__ == "__main__":
             tiempo_renderizado, tamaño_total, fig = graficar(codificacion, file_path)
 
             dataset = file_path.split('/')[-1].replace('.txt', '')
-            filename =  f"/home/casoto/tesis/Implementacion-PA/Resultados/Graficos/{dataset}_{codificacion}.html"
+            filename = graficos_dir / f"{dataset}_{codificacion}.html"
             fig.write_html(filename)
 
             print(f"Procesando {dataset} con codificación {codificacion}")

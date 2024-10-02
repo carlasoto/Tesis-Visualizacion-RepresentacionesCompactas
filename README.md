@@ -50,7 +50,7 @@ En el caso de los archivos sobre 25MB, estos no pudieron ser cargados en este re
         - 6horas_50hz
         - 6horas_100hz
         - 12horas_100hz
-    2
+    https://we.tl/t-tjuWuQIbbd 
         - 18horas_100hz
     https://we.tl/t-g7OImal8LS
         - 24horas_100hz

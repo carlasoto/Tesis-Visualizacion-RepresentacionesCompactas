@@ -41,7 +41,19 @@ Para ejecutar el programa, utilizar el siguiente comando en la terminal:
 ## Indicación de Datasets
 Para especificar los datasets que se desean probar, indicar el nombre del dataset (sin el path, solo el nombre) en el archivo ListadoDatasets.txt. Colocar un nombre de dataset por línea.
 
-Los datasets se encuentran en la carpeta Datasets.
+Los datasets se encuentran en la carpeta Datasets y hay que escribir el nombre tal como aparecen junto con su extensión.
+
+En el caso de los archivos sobre 25MB, estos no pudieron ser cargados en este repositorio pero se encuentran en los siguientes links:
+    https://we.tl/t-iIwEb2Ort2  
+        - 1hora_100hz
+        - 2horas_100hz
+        - 6horas_50hz
+        - 6horas_100hz
+        - 12horas_100hz
+    2
+        - 18horas_100hz
+    3
+        - 24horas_100hz
 
 ## Resampling de un Dataset
 Si se desea resamplear un dataset es necesario seguir los siguientes pasos con los archivos auxiliares:

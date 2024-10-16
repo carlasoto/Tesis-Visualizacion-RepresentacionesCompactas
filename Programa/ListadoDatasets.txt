@@ -13,12 +13,3 @@
 8Min_100hz.txt
 8Min_50hz.txt
 8Min_10hz.txt
-1hora_100hz.txt
-1hora_50hz.txt
-1hora_10hz.txt
-6horas_100hz.txt
-6horas_50hz.txt
-6horas_10hz.txt
-12horas.txt
-18horas.txt
-24horas.txt

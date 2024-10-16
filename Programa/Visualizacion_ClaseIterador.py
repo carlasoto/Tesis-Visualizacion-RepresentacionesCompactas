@@ -3,7 +3,7 @@ import dash
 from dash import dcc
 from dash import html
 import pandas as pd
-from plotly_resampler import FigureResampler, FigureWidgetResampler, register_plotly_resampler, unregister_plotly_resampler
+# from plotly_resampler import FigureResampler, FigureWidgetResampler, register_plotly_resampler, unregister_plotly_resampler
 from plotly.offline import plot
 import plotly.offline as pyo
 import plotly.graph_objects as go
@@ -14,7 +14,7 @@ import numpy as np
 import math
 from plotly.subplots import make_subplots
 from datetime import datetime
-import pysdsl
+import sdsl4py
 import plotly.express as px
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output,State

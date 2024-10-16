@@ -10,7 +10,7 @@ def write_to_csv(filename, data):
 if __name__ == "__main__":
     current_dir = Path(__file__).resolve().parent
     output_csv = current_dir / 'Resultados' / 'Resultados.csv'
-    prefix_path = current_dir / 'Datasets'
+    prefix_path = current_dir / '../Datasets'
     listado_datasets = current_dir / 'ListadoDatasets.txt'
     graficos_dir = current_dir / 'Resultados' / 'Graficos'
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     file_paths = get_file_path(listado_datasets)
     
     for file_path in file_paths:
-        file_path = prefix_path + file_path
+        file_path = str(prefix_path) + "/" + file_path
         for codificacion in range(1, 5):
             tiempo_renderizado, tamaño_total, fig = graficar(codificacion, file_path)
 

@@ -1,4 +1,4 @@
-import pysdsl
+import sdsl4py
 from datetime import datetime, timedelta
 import pandas as pd
 import tempfile
@@ -27,24 +27,24 @@ def preparacion_data(codificacion,file_path):
     tiempo_preparacion_inicio = time.time()
 
     if codificacion == 1:
-        vec_type = pysdsl.IntVector
-        int_type = pysdsl.VariableLengthCodesVectorEliasGamma
-        dec_type = pysdsl.DirectAccessibleCodesVector4
-        timestamp_type = pysdsl.EncVectorEliasGamma
+        vec_type = sdsl4py.int_vector
+        int_type = sdsl4py.vlc_vector_elias_gamma
+        dec_type = sdsl4py.dac_vector
+        timestamp_type = sdsl4py.enc_vector_elias_gamma
     elif codificacion == 2:
-        vec_type = pysdsl.IntVector
-        int_type = pysdsl.DirectAccessibleCodesVector4
-        dec_type = pysdsl.DirectAccessibleCodesVector4
-        timestamp_type = pysdsl.EncVectorEliasGamma
+        vec_type = sdsl4py.int_vector
+        int_type = sdsl4py.dac_vector
+        dec_type = sdsl4py.dac_vector
+        timestamp_type = sdsl4py.enc_vector_elias_gamma
     elif codificacion == 3:
         vec_type = np.array
-        timestamp_type = pysdsl.EncVectorEliasGamma
+        timestamp_type = sdsl4py.enc_vector_elias_gamma
     elif codificacion == 4:
         vec_type = np.array
         timestamp_type = np.array
     elif codificacion == 5:
         vec_type = []
-        timestamp_type = pysdsl.EncVectorEliasGamma
+        timestamp_type = sdsl4py.enc_vector_elias_gamma
 
     n_vector = 1
     cant_lineas = 0
@@ -296,11 +296,11 @@ def preparacion_data(codificacion,file_path):
     if codificacion == 3:
         timestamps, cant_lineas, numpy_arrays = procesar_lineas_numpy_timestamps_edc(lineas)
         numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16 = numpy_arrays
-        sdsl_timestamps= pysdsl.IntVector(timestamps)
-        tam_original_timestamps = sdsl_timestamps.size_in_mega_bytes
+        sdsl_timestamps= sdsl4py.int_vector(timestamps)
+        tam_original_timestamps =sdsl4py.size_in_mega_bytes(sdsl_timestamps)
         timestamps.clear()
         timestamps = timestamp_type(sdsl_timestamps)
-        compact_tam_ts = timestamps.size_in_mega_bytes
+        compact_tam_ts = sdsl4py.size_in_mega_bytes(timestamps) 
     elif codificacion == 4:
         timestamps, cant_lineas, numpy_arrays = procesar_lineas_numpy_con_timestamps(lineas)
         numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16 = numpy_arrays
@@ -308,17 +308,17 @@ def preparacion_data(codificacion,file_path):
     elif codificacion == 5:
         timestamps, cant_lineas, listas = procesar_lineas_listas_con_timestamps(lineas)
         lista_1, lista_2, lista_3, lista_4, lista_5, lista_6, lista_7, lista_8, lista_9, lista_10, lista_11, lista_12, lista_13, lista_14, lista_15, lista_16 = listas
-        sdsl_timestamps= pysdsl.IntVector(timestamps)
-        tam_original_timestamps = sdsl_timestamps.size_in_mega_bytes
+        sdsl_timestamps= sdsl4py.int_vector(timestamps)
+        tam_original_timestamps = sdsl4py.size_in_mega_bytes(sdsl_timestamps)
         timestamps.clear()
         timestamps = timestamp_type(sdsl_timestamps)
-        compact_tam_ts = timestamps.size_in_mega_bytes
+        compact_tam_ts = sdsl4py.size_in_mega_bytes(timestamps)
     else:
         timestamps, cant_lineas = procesar_lineas(lineas, transformar_numero)
-        sdsl_timestamps= pysdsl.IntVector(timestamps)
-        tam_original_timestamps = sdsl_timestamps.size_in_mega_bytes
+        sdsl_timestamps= sdsl4py.int_vector(timestamps)
+        tam_original_timestamps = sdsl4py.size_in_mega_bytes(sdsl_timestamps)
         timestamps = timestamp_type(sdsl_timestamps) 
-        compact_tam_ts = timestamps.size_in_mega_bytes
+        compact_tam_ts = sdsl4py.size_in_mega_bytes(timestamps)
 
     cant_datos = cant_lineas*16
     print()
@@ -326,7 +326,7 @@ def preparacion_data(codificacion,file_path):
 
     ##### MANEJO DE TIMESTAMPS
     '''
-    sdsl_timestamps= pysdsl.IntVector(timestamps)
+    sdsl_timestamps= sdsl4py.int_vector(timestamps)
     tam_original_timestamps = sdsl_timestamps.size_in_mega_bytes
     #print("OG TS = ",tam_original_timestamps)
     compact_ts = timestamp_type(sdsl_timestamps)
@@ -375,7 +375,7 @@ def preparacion_data(codificacion,file_path):
         exec(f"print(sdsl_dec_{i})")
     ''' 
     
-    #### CODIFICACION PYSDSL
+    #### CODIFICACION SDSL4PY
     if codificacion == 1 or codificacion == 2:
         tam_original_sensores_int = sdsl_int_1.size_in_mega_bytes + sdsl_int_2.size_in_mega_bytes + sdsl_int_3.size_in_mega_bytes + sdsl_int_4.size_in_mega_bytes + sdsl_int_5.size_in_mega_bytes + sdsl_int_6.size_in_mega_bytes + sdsl_int_7.size_in_mega_bytes + sdsl_int_8.size_in_mega_bytes + sdsl_int_9.size_in_mega_bytes + sdsl_int_10.size_in_mega_bytes + sdsl_int_11.size_in_mega_bytes + sdsl_int_12.size_in_mega_bytes + sdsl_int_13.size_in_mega_bytes + sdsl_int_14.size_in_mega_bytes + sdsl_int_15.size_in_mega_bytes + sdsl_int_16.size_in_mega_bytes
         tam_original_sensores_dec = sdsl_dec_1.size_in_mega_bytes + sdsl_dec_2.size_in_mega_bytes + sdsl_dec_3.size_in_mega_bytes + sdsl_dec_4.size_in_mega_bytes + sdsl_dec_5.size_in_mega_bytes + sdsl_dec_6.size_in_mega_bytes + sdsl_dec_7.size_in_mega_bytes + sdsl_dec_8.size_in_mega_bytes + sdsl_dec_9.size_in_mega_bytes + sdsl_dec_10.size_in_mega_bytes + sdsl_dec_11.size_in_mega_bytes + sdsl_dec_12.size_in_mega_bytes + sdsl_dec_13.size_in_mega_bytes + sdsl_dec_14.size_in_mega_bytes + sdsl_dec_15.size_in_mega_bytes + sdsl_dec_16.size_in_mega_bytes

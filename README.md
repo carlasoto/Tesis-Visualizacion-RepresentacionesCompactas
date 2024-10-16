@@ -2,7 +2,19 @@
 
 ## Requisitos
 
-Es necesario tener la versión adaptada de Python para que `pysdsl` funcione correctamente. 
+Es necesario tener instalado SDSL4py para acceder a la implementación de estructuras de datos compactas desde Python. Para ello, clone el repositorio
+   
+```sh
+git clone git@github.com:carlasoto/Tesis-Visualizacion-RepresentacionesCompactas.git --recursive 
+cd Tesis-Visualizacion-RepresentacionesCompactas/sdsl4py
+```
+Luego, instale SDSL4py. Como sugerencia, se recomienda crear un nuevo ambiente en Python (en este caso, llamado `sdsl4py-env`)
+```sh
+mkdir sdsl4py-env
+python3 -m venv sdsl4py-env
+source sdsl4py-env/bin/activate
+pip install .
+```
 
 ## Estructura de Carpetas
 

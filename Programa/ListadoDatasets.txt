@@ -1,15 +1,3 @@
 30Seg_100hz.txt
 30Seg_50hz.txt
 30Seg_10hz.txt
-1Min_100hz.txt
-1Min_50hz.txt
-1Min_10hz.txt
-2Min_100hz.txt
-2Min_50hz.txt
-2Min_10hz.txt
-4Min_100hz.txt
-4Min_50hz.txt
-4Min_10hz.txt
-8Min_100hz.txt
-8Min_50hz.txt
-8Min_10hz.txt

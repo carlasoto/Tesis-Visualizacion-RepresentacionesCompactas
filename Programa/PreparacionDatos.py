@@ -19,6 +19,12 @@ def transformar_numero(numero):
         else:
             return -2 * numero - 1
 
+def size_in_mega_bytes(numpy_array):
+    return numpy_array.nbytes / (1024 * 1024)
+
+def size_in_mega_bytes(obj):
+    return sys.getsizeof(obj) / (1024 * 1024)
+
 def preparacion_data(codificacion,file_path):
     
     nombre_dataset = file_path
@@ -304,7 +310,8 @@ def preparacion_data(codificacion,file_path):
     elif codificacion == 4:
         timestamps, cant_lineas, numpy_arrays = procesar_lineas_numpy_con_timestamps(lineas)
         numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16 = numpy_arrays
-        tam_original_timestamps = timestamps.nbytes / (1024 * 1024)
+        #tam_original_timestamps = timestamps.nbytes / (1024 * 1024)
+        tam_original_timestamps = size_in_mega_bytes(timestamps)
     elif codificacion == 5:
         timestamps, cant_lineas, listas = procesar_lineas_listas_con_timestamps(lineas)
         lista_1, lista_2, lista_3, lista_4, lista_5, lista_6, lista_7, lista_8, lista_9, lista_10, lista_11, lista_12, lista_13, lista_14, lista_15, lista_16 = listas
@@ -333,7 +340,7 @@ def preparacion_data(codificacion,file_path):
     compact_tam_ts = compact_ts.size_in_mega_bytes
     #print("COMPACT TS = ",compact_tam_ts)
     '''
-
+    '''
     sdsl_int_1 = vec_type(int_part_1)  
     sdsl_dec_1 = vec_type(dec_part_1)
     sdsl_int_2 = vec_type(int_part_2)
@@ -367,79 +374,74 @@ def preparacion_data(codificacion,file_path):
     sdsl_int_16 = vec_type(int_part_16)
     sdsl_dec_16 = vec_type(dec_part_16)
     '''
-    Imprimir todos los vectores 1 al 16
+    sdsl_int = []
+    sdsl_dec = []
+
+    # Agregar los valores a las listas utilizando un bucle
     for i in range(1, 17):
-        sdsl_int = i
-        sdsl_dec = i
-        exec(f"print(sdsl_int_{i})")
-        exec(f"print(sdsl_dec_{i})")
-    ''' 
-    
+        int_part = globals()[f'int_part_{i}']  # Obtener int_part_X dinámicamente
+        dec_part = globals()[f'dec_part_{i}']  # Obtener dec_part_X dinámicamente
+        sdsl_int.append(vec_type(int_part))    # Agregar a la lista de int
+        sdsl_dec.append(vec_type(dec_part))    # Agregar a la lista de dec
+
     #### CODIFICACION SDSL4PY
     if codificacion == 1 or codificacion == 2:
-        tam_original_sensores_int = sdsl_int_1.size_in_mega_bytes + sdsl_int_2.size_in_mega_bytes + sdsl_int_3.size_in_mega_bytes + sdsl_int_4.size_in_mega_bytes + sdsl_int_5.size_in_mega_bytes + sdsl_int_6.size_in_mega_bytes + sdsl_int_7.size_in_mega_bytes + sdsl_int_8.size_in_mega_bytes + sdsl_int_9.size_in_mega_bytes + sdsl_int_10.size_in_mega_bytes + sdsl_int_11.size_in_mega_bytes + sdsl_int_12.size_in_mega_bytes + sdsl_int_13.size_in_mega_bytes + sdsl_int_14.size_in_mega_bytes + sdsl_int_15.size_in_mega_bytes + sdsl_int_16.size_in_mega_bytes
-        tam_original_sensores_dec = sdsl_dec_1.size_in_mega_bytes + sdsl_dec_2.size_in_mega_bytes + sdsl_dec_3.size_in_mega_bytes + sdsl_dec_4.size_in_mega_bytes + sdsl_dec_5.size_in_mega_bytes + sdsl_dec_6.size_in_mega_bytes + sdsl_dec_7.size_in_mega_bytes + sdsl_dec_8.size_in_mega_bytes + sdsl_dec_9.size_in_mega_bytes + sdsl_dec_10.size_in_mega_bytes + sdsl_dec_11.size_in_mega_bytes + sdsl_dec_12.size_in_mega_bytes + sdsl_dec_13.size_in_mega_bytes + sdsl_dec_14.size_in_mega_bytes + sdsl_dec_15.size_in_mega_bytes + sdsl_dec_16.size_in_mega_bytes
+        tam_original_sensores_int = 0
+        tam_original_sensores_dec = 0
+
+        # Sumar el tamaño de los sensores int
+        for sensor in sdsl_int:
+            tam_original_sensores_int += sdsl4py.size_in_mega_bytes(sensor)
+
+        # Sumar el tamaño de los sensores dec
+        for sensor in sdsl_dec:
+            tam_original_sensores_dec += sdsl4py.size_in_mega_bytes(sensor)
+
+        # Calcular el tamaño total
         tam_original_sensores = tam_original_sensores_int + tam_original_sensores_dec
-        #print("OG int = ",tam_original_sensores_int)
-        #print("OG dec = ",tam_original_sensores_dec)
-        #print("OG total = ",tam_original_sensores)
-        #print()
-        compact_vector_int_1 = int_type(sdsl_int_1)
-        compact_vector_dec_1 = dec_type(sdsl_dec_1)
-        compact_vector_int_2 = int_type(sdsl_int_2)
-        compact_vector_dec_2 = dec_type(sdsl_dec_2)
-        compact_vector_int_3 = int_type(sdsl_int_3)
-        compact_vector_dec_3 = dec_type(sdsl_dec_3)
-        compact_vector_int_4 = int_type(sdsl_int_4)
-        compact_vector_dec_4 = dec_type(sdsl_dec_4)
-        compact_vector_int_5 = int_type(sdsl_int_5)
-        compact_vector_dec_5 = dec_type(sdsl_dec_5)
-        compact_vector_int_6 = int_type(sdsl_int_6)
-        compact_vector_dec_6 = dec_type(sdsl_dec_6)
-        compact_vector_int_7 = int_type(sdsl_int_7)
-        compact_vector_dec_7 = dec_type(sdsl_dec_7)
-        compact_vector_int_8 = int_type(sdsl_int_8)
-        compact_vector_dec_8 = dec_type(sdsl_dec_8)
-        compact_vector_int_9 = int_type(sdsl_int_9)
-        compact_vector_dec_9 = dec_type(sdsl_dec_9)
-        compact_vector_int_10 = int_type(sdsl_int_10)
-        compact_vector_dec_10 = dec_type(sdsl_dec_10)
-        compact_vector_int_11 = int_type(sdsl_int_11)
-        compact_vector_dec_11 = dec_type(sdsl_dec_11)
-        compact_vector_int_12 = int_type(sdsl_int_12)
-        compact_vector_dec_12 = dec_type(sdsl_dec_12)
-        compact_vector_int_13 = int_type(sdsl_int_13)
-        compact_vector_dec_13 = dec_type(sdsl_dec_13)
-        compact_vector_int_14 = int_type(sdsl_int_14)
-        compact_vector_dec_14 = dec_type(sdsl_dec_14)
-        compact_vector_int_15 = int_type(sdsl_int_15)
-        compact_vector_dec_15 = dec_type(sdsl_dec_15)
-        compact_vector_int_16 = int_type(sdsl_int_16)
-        compact_vector_dec_16 = dec_type(sdsl_dec_16)
-        
-        compact_vector_sensores_int = compact_vector_int_1.size_in_mega_bytes + compact_vector_int_2.size_in_mega_bytes + compact_vector_int_3.size_in_mega_bytes + compact_vector_int_4.size_in_mega_bytes + compact_vector_int_5.size_in_mega_bytes + compact_vector_int_6.size_in_mega_bytes + compact_vector_int_7.size_in_mega_bytes + compact_vector_int_8.size_in_mega_bytes + compact_vector_int_9.size_in_mega_bytes + compact_vector_int_10.size_in_mega_bytes + compact_vector_int_11.size_in_mega_bytes + compact_vector_int_12.size_in_mega_bytes + compact_vector_int_13.size_in_mega_bytes + compact_vector_int_14.size_in_mega_bytes + compact_vector_int_15.size_in_mega_bytes + compact_vector_int_16.size_in_mega_bytes
-        compact_vector_sensores_dec = compact_vector_dec_1.size_in_mega_bytes + compact_vector_dec_2.size_in_mega_bytes + compact_vector_dec_3.size_in_mega_bytes + compact_vector_dec_4.size_in_mega_bytes + compact_vector_dec_5.size_in_mega_bytes + compact_vector_dec_6.size_in_mega_bytes + compact_vector_dec_7.size_in_mega_bytes + compact_vector_dec_8.size_in_mega_bytes + compact_vector_dec_9.size_in_mega_bytes + compact_vector_dec_10.size_in_mega_bytes + compact_vector_dec_11.size_in_mega_bytes + compact_vector_dec_12.size_in_mega_bytes + compact_vector_dec_13.size_in_mega_bytes + compact_vector_dec_14.size_in_mega_bytes + compact_vector_dec_15.size_in_mega_bytes + compact_vector_dec_16.size_in_mega_bytes
+
+        # Listas para compact_vector_int y compact_vector_dec
+        compact_vector_int = []
+        compact_vector_dec = []
+
+        # Agregar los valores a las listas utilizando un bucle (usando índices, no globals)
+        for i in range(16):
+            compact_vector_int.append(int_type(sdsl_int[i]))  # Acceder directamente a través de la lista
+            compact_vector_dec.append(dec_type(sdsl_dec[i]))  # Acceder directamente a través de la lista
+
+        # Calcular el tamaño total de compact_vector_sensores_int y compact_vector_sensores_dec
+        compact_vector_sensores_int = 0
+        compact_vector_sensores_dec = 0
+
+        # Sumar el tamaño de los sensores int
+        for sensor in compact_vector_int:
+            compact_vector_sensores_int += sdsl4py.size_in_mega_bytes(sensor)
+
+        # Sumar el tamaño de los sensores dec
+        for sensor in compact_vector_dec:
+            compact_vector_sensores_dec += sdsl4py.size_in_mega_bytes(sensor)
+
+        # Sumar los tamaños
         compact_vector_sensores = compact_vector_sensores_int + compact_vector_sensores_dec
-        #print("Tamaño vectores compactos INT = ",compact_vector_sensores_int)
-        #print("Tamaño vectores compactos DEC = ",compact_vector_sensores_dec)
-        #print("Tamaño vectores compactos TOTAL = ",compact_vector_sensores)
-        #print()
-        #print("TOTAL SUMA TIMESTAMP Y SENSORES (MB): ",compact_tam_ts+compact_vector_sensores)
-        vector_partes_enteras = [compact_vector_int_1,compact_vector_int_2,compact_vector_int_3,compact_vector_int_4,compact_vector_int_5,compact_vector_int_6,compact_vector_int_7,compact_vector_int_8,compact_vector_int_9,compact_vector_int_10,compact_vector_int_11,compact_vector_int_12,compact_vector_int_13,compact_vector_int_14,compact_vector_int_15,compact_vector_int_16]
-        vector_partes_decimales = [compact_vector_dec_1,compact_vector_dec_2,compact_vector_dec_3,compact_vector_dec_4,compact_vector_dec_5,compact_vector_dec_6,compact_vector_dec_7,compact_vector_dec_8,compact_vector_dec_9,compact_vector_dec_10,compact_vector_dec_11,compact_vector_dec_12,compact_vector_dec_13,compact_vector_dec_14,compact_vector_dec_15,compact_vector_dec_16]
+
+        # Puedes ahora evitar el uso de variables sueltas y usar las listas compact_vector_int y compact_vector_dec directamente
+        vector_partes_enteras = compact_vector_int
+        vector_partes_decimales = compact_vector_dec
 
     elif codificacion == 3 or codificacion == 4:
-        def size_in_mega_bytes(numpy_array):
-            return numpy_array.nbytes / (1024 * 1024)
-        tam_numpy_sensores = sum([size_in_mega_bytes(arr) for arr in [numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16]])
+        #def size_in_mega_bytes(numpy_array):
+        #    return numpy_array.nbytes / (1024 * 1024)
+        #tam_numpy_sensores = sum([size_in_mega_bytes(arr) for arr in [numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16]])
         vector_sensores_nl = [numpy_1, numpy_2, numpy_3, numpy_4, numpy_5, numpy_6, numpy_7, numpy_8, numpy_9, numpy_10, numpy_11, numpy_12, numpy_13, numpy_14, numpy_15, numpy_16]
+        tam_numpy_sensores = sum(size_in_mega_bytes(arr) for arr in vector_sensores_nl)
         #print("OG Numpy = ",tam_numpy_sensores)
 
     elif codificacion == 5:
-        def size_in_mega_bytes(obj):
-            return sys.getsizeof(obj) / (1024 * 1024)
-        tam_listas_sensores = sum([size_in_mega_bytes(arr) for arr in [lista_1, lista_2, lista_3, lista_4, lista_5, lista_6, lista_7, lista_8, lista_9, lista_10, lista_11, lista_12, lista_13, lista_14, lista_15, lista_16]])
+        #def size_in_mega_bytes(obj):
+        #    return sys.getsizeof(obj) / (1024 * 1024)
+        #tam_listas_sensores = sum([size_in_mega_bytes(arr) for arr in [lista_1, lista_2, lista_3, lista_4, lista_5, lista_6, lista_7, lista_8, lista_9, lista_10, lista_11, lista_12, lista_13, lista_14, lista_15, lista_16]])
         vector_sensores_nl = [lista_1, lista_2, lista_3, lista_4, lista_5, lista_6, lista_7, lista_8, lista_9, lista_10, lista_11, lista_12, lista_13, lista_14, lista_15, lista_16]
+        tam_listas_sensores = sum(size_in_mega_bytes(lst) for lst in vector_sensores_nl)
 
     tiempo_preparacion_fin = time.time()
     tiempo_preparacion = tiempo_preparacion_fin - tiempo_preparacion_inicio

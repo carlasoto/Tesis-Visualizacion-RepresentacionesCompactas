@@ -3,21 +3,19 @@
 # Obtener la ruta del directorio donde se encuentra el script
 SCRIPT_DIR=$(dirname "$0")
 
-# Solicitar al usuario la ruta del Python que desea utilizar
-read -p "Ingresar ruta del ambiente Python: " PYTHON_PATH
+# Usar directamente el comando 'python3' en lugar de solicitar la ruta del Python
+PYTHON_PATH="python3"
 
-while [ ! -x "$PYTHON_PATH" ]; do
-    echo "Ruta inválida."
-    read -p "Ingresar ruta del ambiente Python: " PYTHON_PATH
-done
-
+# Solicitar la cantidad de pruebas a realizar
 read -p "Cantidad de pruebas a realizar: " times
 
+# Verificar que el número de pruebas sea válido
 while ! [[ "$times" =~ ^[0-9]+$ && "$times" -gt 0 ]]
 do
     echo "Inválido."
-    read -p "Cantidad de puebas a realizas: " times
+    read -p "Cantidad de pruebas a realizar: " times
 done
+
 
 for ((i=1; i<=times; i++))
 do

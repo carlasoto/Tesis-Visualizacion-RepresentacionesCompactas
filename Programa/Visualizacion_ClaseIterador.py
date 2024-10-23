@@ -55,21 +55,6 @@ def graficar(codificacion,file_path):
             #self.porcentaje = porcentaje
             self.codificacion = codificacion
 
-            '''if self.porcentaje == 10:
-                self.n_puntos = (n*16)/10
-            elif self.porcentaje == 25:
-                self.n_puntos = (n*16)/4
-            elif self.porcentaje == 50:
-                self.n_puntos = (n*16)/2
-            elif self.porcentaje == 75:
-                self.n_puntos = ((n*16)/4)*3
-            elif self.porcentaje == 100:
-                self.n_puntos = n*16
-            else:
-                self.porcentaje = None
-                print("Porcentaje no soportado")
-            '''
-
         def __iter__(self):
             return self
 
@@ -96,7 +81,7 @@ def graficar(codificacion,file_path):
 
         def get_total_size(self, verbose=False):
             if codificacion == 1 or codificacion == 2:   
-                tam_tot = self.int_part.size_in_mega_bytes+self.dec_part.size_in_mega_bytes
+                tam_tot = sdsl4py.size_in_mega_bytes(self.int_part)+sdsl4py.size_in_mega_bytes(self.dec_part)
             elif codificacion == 3 or codificacion == 4:
                 def size_in_mega_bytes(numpy_array):
                     return numpy_array.nbytes / (1024 * 1024)
@@ -201,7 +186,7 @@ def graficar(codificacion,file_path):
         
         tiempo_instancia = instancia_fin - inicio
         tiempo_renderizado = fin - inicio - tiempo_instancia
-        tam_timestamps = timestamps.size_in_mega_bytes
+        tam_timestamps = sdsl4py.size_in_mega_bytes(timestamps)
         
     elif codificacion == 3:
         fig = px.line()
@@ -215,7 +200,7 @@ def graficar(codificacion,file_path):
         
         fin = time.time()
         tiempo_renderizado = fin - inicio
-        tam_timestamps = timestamps.size_in_mega_bytes
+        tam_timestamps = sdsl4py.size_in_mega_bytes(timestamps)
 
     elif codificacion == 4:
         fig = px.line()
@@ -244,7 +229,7 @@ def graficar(codificacion,file_path):
             fig.add_trace(go.Scatter(x=x_data, y=y_data, line_color=colores[i], name=nombres[i]))
         fin = time.time()
         tiempo_renderizado = fin - inicio
-        tam_timestamps = size_in_mega_bytes(timestamps)
+        tam_timestamps = sdsl4py.size_in_mega_bytes(timestamps)
         
     #print("Tiempo de creación del gráfico: ", tiempo_renderizado)#-tiempo_preparacion)
     tamaño_total = tamaño_bytes+tam_timestamps
